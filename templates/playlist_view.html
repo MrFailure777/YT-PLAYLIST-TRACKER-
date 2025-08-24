@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="playlist-detail">
+  <div class="detail-row">
+    <!-- Left: Playlist Card -->
+    <div class="card glass playlist-card half-width">
+      <div class="card-head">
+        <h2 class="title">{{ playlist.title }}</h2>
+        <div class="progress-info">
+          {{ playlist.completed_videos }} / {{ playlist.total_videos }} —
+          <strong>{{ playlist.progress_percent }}%</strong>
+        </div>
+      </div>
+
+      <div class="progress-bar big">
+        <div
+          class="bar-fill {% if playlist.progress_percent < 40 %}low{% elif playlist.progress_percent < 70 %}mid{% else %}high{% endif %}"
+          style="width: {{ playlist.progress_percent }}%">
+        </div>
+      </div>
+
+      <div class="card-controls">
+        <button class="btn tiny inc" data-id="{{ playlist.id }}">+1</button>
+        <button class="btn tiny dec" data-id="{{ playlist.id }}">-1</button>
+        <a href="{{ playlist.url }}" target="_blank" class="btn tiny">Open (YouTube)</a>
+        <button class="btn tiny danger remove-btn" data-id="{{ playlist.id }}">Remove</button>
+        <a href="{{ url_for('dashboard') }}" class="btn tiny">Back</a>
+      </div>
+    </div>
+
+    <!-- Right: Progress Chart -->
+    <div class="card glass half-width">
+      <h3 class="form-title">Progress</h3>
+      <canvas id="progressChart" width="160" height="160"></canvas>
+      <div class="meta">
+        {{ playlist.completed_videos }} / {{ playlist.total_videos }} videos — 
+        <strong>{{ playlist.progress_percent }}%</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('progressChart').getContext('2d');
+  const completed = {{ playlist.completed_videos }};
+  const total = {{ playlist.total_videos }};
+  const remaining = total - completed;
+
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Completed', 'Remaining'],
+      datasets: [{
+        data: [completed, remaining],
+        backgroundColor: ['#00c853', '#e0e0e0'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      cutout: '70%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true }
+      }
+    }
+  });
+</script>
+
+<style>
+.playlist-detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+.detail-row {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  max-width: 1100px;
+}
+.half-width {
+  flex: 1;
+}
+</style>
+{% endblock %}

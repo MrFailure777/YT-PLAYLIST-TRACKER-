@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-card glass">
+  <button class="close-btn" onclick="window.location.href='{{ url_for('home') }}'">&times;</button>
+  <h2 class="auth-title">Create Account</h2>
+  <form method="post">
+    <label>Username<input name="username" required></label>
+    <label>Password<input name="password" type="password" required></label>
+    <div class="actions">
+      <button class="btn">Register</button>
+      <a href="{{ url_for('login') }}" class="btn hollow">Login</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

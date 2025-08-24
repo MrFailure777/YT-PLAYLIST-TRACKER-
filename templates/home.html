@@ -1,0 +1,43 @@
+<style>
+  .hero {
+  display: flex;
+  flex-direction: column;   /* stack h1, p, buttons */
+  justify-content: center;  /* center vertically */
+  align-items: center;      /* center horizontally */
+  min-height: 100vh;        /* full screen height */
+  text-align: center;       /* center text */
+  padding: 2rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.hero .cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap; /* so buttons wrap on small screens */
+  justify-content: center;
+}
+
+</style>
+
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero">
+  <h1>Welcome to Playlist Tracker</h1>
+  <p>Save playlists, mark videos complete, and track your total progress.</p>
+  <div class="cta">
+    <a href="/register" class="btn large">Get Started — Register</a>
+    <a href="/login" class="btn large hollow">Or Login</a>
+  </div>
+</section>
+
+{% endblock %}
